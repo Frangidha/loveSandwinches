@@ -16,28 +16,36 @@ sales = SHEET.worksheet('sales')
 
 data = sales.get_all_values()
 
-def get_sales_data():
 
+def get_sales_data():
     """
     Get sales figures from CSV file
     """
+    while True: 
+        print("please enter sales data from the last market.")
+        print("Data should be six numbers, seperated by commas.")
+        print("Example: 10,20,30,40,50,60\n")
 
-    print("please enter sales data from the last market.")
-    print("Data should be six numbers, seperated by commas.")
-    print("Example: 10,20,30,40,50,60\n")
+        data_str = input ("Enter your data here: ")
+        print(f"data provided is {data_str}")
 
-    data_str = input ( "Enter your data here: ")
-    print(f"data provided is {data_str}")
+        sales_data = data_str.split(",")
+        validate_data(sales_data)
 
-    sales_data = data_str.split(",")
-    validate_data(sales_data)
+        if validate_data(sales_data):
+            print("Data is valid!")
+            break
+    return sales_data
+
 
 def validate_data(values):
     """
-    Inside the try, converst all string values into intgers. Raises ValueError if string cannot be converted into int, 
+    Inside the try, converst all string values into intgers. Raises ValueError 
+    if string cannot be converted into int, 
     or if there aren't exactly 6 values
     """
     try:
+        [int(value) for value in values]
         if len(values) !=6:
             raise ValueError(
                 f"Exactly 6 values required, you provided {len(values)}"
@@ -45,6 +53,10 @@ def validate_data(values):
 
     except ValueError as e:
         print(f"Invaled date: {e}, please try again.\n")
+        return False
 
-get_sales_data()
+    return True 
+
+
+data = get_sales_data()
 
